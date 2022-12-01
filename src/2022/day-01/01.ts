@@ -14,7 +14,7 @@ export const getInput = (file: string) => {
 };
 
 export const getCalories = (input: number[][]) => {
-  const calories = input.map((set) => set.reduce((a, b) => a + b, 0));
+  const calories = input.map((set) => set.reduce((a, b) => a + b));
   return calories;
 };
 
