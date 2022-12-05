@@ -25,10 +25,7 @@ export const parseInput = (input: string[]) => {
   });
 
   const stackNumbers = stackLines[separator - 1];
-  const amountOfStacks = [...stackNumbers]
-    .map(Number)
-    .sort((a, b) => a - b)
-    .pop();
+  const amountOfStacks = Math.max(...[...stackNumbers].map(Number));
 
   stackLines.pop();
   return { amountOfStacks, instructions, stackLines, stackNumbers };
