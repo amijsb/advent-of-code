@@ -22,5 +22,5 @@ export const part01 = (file: string) => {
   const input = getInput(file);
   const calories = getCalories(input);
 
-  return calories.sort((a, b) => a - b).pop();
+  return Math.max(...calories);
 };
