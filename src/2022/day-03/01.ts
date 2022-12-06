@@ -14,11 +14,11 @@ export const getParts = (input: string[]) => {
 
 export const getOverlap = (parts: string[][][]) => {
   let overlap: string[] = [];
-  for (let i = 0; i < parts[0].length; i++) {
+  parts[0].forEach((_, i) => {
     const el = parts[0][i].filter((element) => parts[1][i].includes(element));
     const individualValues = new Set(el).values().next();
     overlap.push(individualValues.value);
-  }
+  });
   return overlap;
 };
 
