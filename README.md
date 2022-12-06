@@ -2,6 +2,7 @@
 
 Use `npm run new-day 0000 day-00` (so for example `npm run new-day 2022 day-01`) to create folders and files for each new day.
 
+```
                              A
                             / \
                            J   L
