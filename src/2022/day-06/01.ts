@@ -7,25 +7,21 @@ export const getInput = (file: string) => {
 
 export const getMarker = (input: string[], size: number) => {
   let message: string[] = [];
-  let marker: number[] = [];
+  let marker: number = -1;
 
   input.forEach((letter, i) => {
-    if (new Set(message).size === size) {
-      marker.push(i);
-      return message;
+    if (new Set(message).size === size && marker === -1) {
+      return (marker = i);
     }
 
     if (message.length === size) {
       message.splice(0, 1);
-      message.push(letter);
-      return;
     }
 
-    message.push(letter);
-    return message;
+    return message.push(letter);
   });
 
-  return Math.min(...marker);
+  return marker;
 };
 
 export const part01 = (file: string) => {
