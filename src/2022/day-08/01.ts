@@ -1,0 +1,40 @@
+import { readFileSync } from "fs";
+
+export const getInput = (file: string) => {
+  const fileContent = readFileSync(file, "utf-8");
+  const lines = fileContent.split("\n");
+  return lines.map((line) => line.split("").map(Number));
+};
+
+export const getVisibleTrees = (trees: number[][]) => {
+  let count = 0;
+
+  trees[0].forEach((_, i) => {
+    const verticalLines = trees.map((line) => line[i]);
+
+    trees.forEach((line, index) => {
+      const tree = trees[index][i];
+
+      const treesToLeft = line.slice(0, i);
+      const treesToRight = line.slice(i + 1);
+      const treesToTop = verticalLines.slice(0, index);
+      const treesToBottom = verticalLines.slice(index + 1);
+
+      if (
+        treesToLeft.every((otherTree) => otherTree < tree) ||
+        treesToRight.every((otherTree) => otherTree < tree) ||
+        treesToTop.every((otherTree) => otherTree < tree) ||
+        treesToBottom.every((otherTree) => otherTree < tree)
+      ) {
+        count += 1;
+      }
+    });
+  });
+
+  return count;
+};
+
+export const part01 = (file: string) => {
+  const input = getInput(file);
+  return getVisibleTrees(input);
+};
