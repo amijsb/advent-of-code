@@ -54,7 +54,7 @@ const createNewDay = (year, day) => {
     });
   });
 
-  console.log(`Created ${day} for you!`);
+  console.log(`Created ${year}/${day} for you!`);
 };
 
 createNewDay(year, day);
