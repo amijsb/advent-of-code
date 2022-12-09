@@ -53,11 +53,11 @@ export const moveTail = (headMovement: Instruction[], tailLength: number): any =
     }
 
     if (
-      Math.abs(headPosition.y - tailPosition.y) > 1 ||
-      Math.abs(headPosition.x - tailPosition.x) > 1
+      Math.abs(headPosition.x - tailPosition.x) > 1 ||
+      Math.abs(headPosition.y - tailPosition.y) > 1
     ) {
-      headPosition.y - tailPosition.y < 0 ? (tailPosition.y -= 1) : (tailPosition.y += 1);
       headPosition.x - tailPosition.x < 0 ? (tailPosition.x -= 1) : (tailPosition.x += 1);
+      headPosition.y - tailPosition.y < 0 ? (tailPosition.y -= 1) : (tailPosition.y += 1);
     }
 
     coordinates.push({ ...tailPosition });
