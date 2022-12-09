@@ -1,7 +1,11 @@
 import { getInput } from "./01";
 
-const getViewingDistance = (array: number[], direction: number) => {
-  return direction === -1 ? direction + array.length + 1 : direction + 1;
+const getViewingDistance = (tree: number, array: number[], reverse = false) => {
+  const reversedArray = [...array].reverse();
+  const blocked = reverse
+    ? reversedArray.findIndex((otherTree) => otherTree >= tree)
+    : array.findIndex((otherTree) => otherTree >= tree);
+  return blocked === -1 ? blocked + array.length + 1 : blocked + 1;
 };
 
 export const getScenicScore = (trees: number[][]) => {
@@ -13,22 +17,18 @@ export const getScenicScore = (trees: number[][]) => {
     trees.forEach((line, index) => {
       const tree = trees[index][i];
 
+      const treesToBottom = verticalLines.slice(index + 1);
       const treesToLeft = line.slice(0, i);
       const treesToRight = line.slice(i + 1);
       const treesToTop = verticalLines.slice(0, index);
-      const treesToBottom = verticalLines.slice(index + 1);
 
-      const left = [...treesToLeft].reverse().findIndex((otherTree) => otherTree >= tree);
-      const right = treesToRight.findIndex((otherTree) => otherTree >= tree);
-      const top = [...treesToTop].reverse().findIndex((otherTree) => otherTree >= tree);
-      const bottom = treesToBottom.findIndex((otherTree) => otherTree >= tree);
+      const scenicScore =
+        getViewingDistance(tree, treesToBottom) *
+        getViewingDistance(tree, treesToLeft, true) *
+        getViewingDistance(tree, treesToRight) *
+        getViewingDistance(tree, treesToTop, true);
 
-      scenicScores.push(
-        getViewingDistance(treesToLeft, left) *
-          getViewingDistance(treesToRight, right) *
-          getViewingDistance(treesToBottom, bottom) *
-          getViewingDistance(treesToTop, top),
-      );
+      scenicScores.push(scenicScore);
     });
   });
 

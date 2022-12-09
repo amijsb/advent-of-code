@@ -6,6 +6,10 @@ export const getInput = (file: string) => {
   return lines.map((line) => line.split("").map(Number));
 };
 
+const isTreeVisible = (tree: number, array: number[]) => {
+  return array.every((otherTree) => otherTree < tree);
+};
+
 export const getVisibleTrees = (trees: number[][]) => {
   let count = 0;
 
@@ -15,16 +19,16 @@ export const getVisibleTrees = (trees: number[][]) => {
     trees.forEach((line, index) => {
       const tree = trees[index][i];
 
+      const treesToBottom = verticalLines.slice(index + 1);
       const treesToLeft = line.slice(0, i);
       const treesToRight = line.slice(i + 1);
       const treesToTop = verticalLines.slice(0, index);
-      const treesToBottom = verticalLines.slice(index + 1);
 
       if (
-        treesToLeft.every((otherTree) => otherTree < tree) ||
-        treesToRight.every((otherTree) => otherTree < tree) ||
-        treesToTop.every((otherTree) => otherTree < tree) ||
-        treesToBottom.every((otherTree) => otherTree < tree)
+        isTreeVisible(tree, treesToBottom) ||
+        isTreeVisible(tree, treesToLeft) ||
+        isTreeVisible(tree, treesToRight) ||
+        isTreeVisible(tree, treesToTop)
       ) {
         count += 1;
       }
