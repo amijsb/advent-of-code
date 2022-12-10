@@ -6,40 +6,42 @@ interface Directory {
 
 export const getInput = (file: string) => {
   const fileContent = readFileSync(file, "utf-8");
-  const lines = fileContent.split("\n");
+  return fileContent.split("\n");
+};
 
-  return lines;
+const addPreviousDirValue = (dirs: string[], directories: Directory) => {
+  const previousDir = dirs.join("/");
+
+  dirs.pop();
+
+  directories = {
+    ...directories,
+    [dirs.join("/")]: directories[dirs.join("/")] + directories[previousDir],
+  };
+
+  return { dirs, directories };
 };
 
 export const getDirectorySizes = (input: string[]) => {
   let directories: Directory = { "/": 0 };
   let dirs: string[] = [];
 
-  //@ts-ignore
   input.forEach((line) => {
-    if (!directories[dirs.join("/")]) {
+    let dirName = dirs.join("/");
+
+    if (!directories[dirName] && dirs.length) {
       directories = {
         ...directories,
-        [dirs.join("/")]: 0,
+        [dirName]: 0,
       };
     }
 
     if (line.startsWith("$ cd")) {
-      if (line === "$ cd ..") {
-        const previousDir = dirs.join("/");
-
-        dirs.pop();
-
-        directories = {
-          ...directories,
-          [dirs.join("/")]: directories[dirs.join("/")] + directories[previousDir],
-        };
-
-        return dirs;
-      }
-
       const dir = line.split(" ");
-      dirs.push(dir[dir.length - 1]);
+
+      line === "$ cd .."
+        ? ({ dirs, directories } = addPreviousDirValue(dirs, directories))
+        : dirs.push(dir[dir.length - 1]);
     }
 
     if (!line.startsWith("$") && !line.startsWith("dir")) {
@@ -47,22 +49,13 @@ export const getDirectorySizes = (input: string[]) => {
 
       directories = {
         ...directories,
-        [dirs.join("/")]: directories[dirs.join("/")] + dirSize,
+        [dirName]: directories[dirName] + dirSize,
       };
     }
   });
 
   [...dirs].reverse().forEach((dir) => {
-    if (dir !== "/") {
-      const previousDir = dirs.join("/");
-
-      dirs.pop();
-
-      directories = {
-        ...directories,
-        [dirs.join("/")]: directories[dirs.join("/")] + directories[previousDir],
-      };
-    }
+    dir !== "/" && ({ dirs, directories } = addPreviousDirValue(dirs, directories));
   });
 
   return Object.values(directories);
