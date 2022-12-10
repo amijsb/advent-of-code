@@ -1,16 +1,18 @@
 import { getInput, getPriorities } from "./01";
 
-const getGroups = (input: string[]) => {
-  const chunk = 3;
+const groupSize = 3;
 
-  const groups = input.reduce((resultArray: any[], item: string, index: number): string[][] => {
-    const chunkIndex = Math.floor(index / chunk);
-    if (!resultArray[chunkIndex]) {
-      resultArray[chunkIndex] = [];
+const getGroups = (input: string[]) => {
+  let groups: any[] = [];
+
+  input.forEach((line, i) => {
+    const index = Math.floor(i / groupSize);
+    if (!groups[index]) {
+      groups[index] = [];
     }
-    resultArray[chunkIndex].push(item);
-    return resultArray;
-  }, []);
+    groups[index].push(line);
+  });
+
   return groups;
 };
 
