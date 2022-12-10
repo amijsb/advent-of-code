@@ -3,14 +3,14 @@ import { readFileSync } from "fs";
 export const getInput = (file: string) => {
   const fileContent = readFileSync(file, "utf-8");
   const lines = fileContent.split("\n");
+
   return lines.map((line) => line.split("").map(Number));
 };
 
-const isTreeVisible = (tree: number, array: number[]) => {
-  return array.every((otherTree) => otherTree < tree);
-};
+const isTreeVisible = (tree: number, array: number[]) =>
+  array.every((otherTree) => otherTree < tree);
 
-export const getVisibleTrees = (trees: number[][]) => {
+const getVisibleTrees = (trees: number[][]) => {
   let count = 0;
 
   trees[0].forEach((_, i) => {
@@ -40,5 +40,6 @@ export const getVisibleTrees = (trees: number[][]) => {
 
 export const part01 = (file: string) => {
   const input = getInput(file);
+
   return getVisibleTrees(input);
 };

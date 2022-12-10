@@ -5,10 +5,11 @@ const getViewingDistance = (tree: number, array: number[], reverse = false) => {
   const blocked = reverse
     ? reversedArray.findIndex((otherTree) => otherTree >= tree)
     : array.findIndex((otherTree) => otherTree >= tree);
-  return blocked === -1 ? blocked + array.length + 1 : blocked + 1;
+
+  return blocked === -1 ? array.length : blocked + 1;
 };
 
-export const getScenicScore = (trees: number[][]) => {
+const getScenicScore = (trees: number[][]) => {
   let scenicScores: number[] = [];
 
   trees[0].forEach((_, i) => {
@@ -37,5 +38,6 @@ export const getScenicScore = (trees: number[][]) => {
 
 export const part02 = (file: string) => {
   const input = getInput(file);
+
   return getScenicScore(input);
 };
