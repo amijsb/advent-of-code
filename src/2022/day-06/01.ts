@@ -10,15 +10,10 @@ export const getMarker = (input: string[], size: number) => {
   let marker: number = -1;
 
   input.forEach((letter, i) => {
-    if (new Set(message).size === size && marker === -1) {
-      return (marker = i);
-    }
+    new Set(message).size === size && marker === -1 && (marker = i);
+    message.length === size && message.splice(0, 1);
 
-    if (message.length === size) {
-      message.splice(0, 1);
-    }
-
-    return message.push(letter);
+    message.push(letter);
   });
 
   return marker;
@@ -26,7 +21,5 @@ export const getMarker = (input: string[], size: number) => {
 
 export const part01 = (file: string) => {
   const input = getInput(file);
-  const marker = getMarker(input, 4);
-
-  return marker;
+  return getMarker(input, 4);
 };
