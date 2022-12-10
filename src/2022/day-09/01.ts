@@ -38,7 +38,7 @@ export const moveHead = (instructions: Instruction[]) => {
   return headMovement;
 };
 
-const increment = (head: number, tail: number) => (head - tail < 0 ? (tail -= 1) : (tail += 1));
+const updateTail = (head: number, tail: number) => (head - tail < 0 ? (tail -= 1) : (tail += 1));
 
 export const moveTail = (headMovement: Instruction[], tailLength: number): any => {
   let coordinates: Instruction[] = [];
@@ -50,9 +50,9 @@ export const moveTail = (headMovement: Instruction[], tailLength: number): any =
       Math.abs(headPosition.y - tailPosition.y) > 1
     ) {
       headPosition.x !== tailPosition.x &&
-        (tailPosition.x = increment(headPosition.x, tailPosition.x));
+        (tailPosition.x = updateTail(headPosition.x, tailPosition.x));
       headPosition.y !== tailPosition.y &&
-        (tailPosition.y = increment(headPosition.y, tailPosition.y));
+        (tailPosition.y = updateTail(headPosition.y, tailPosition.y));
     }
 
     coordinates.push({ ...tailPosition });
