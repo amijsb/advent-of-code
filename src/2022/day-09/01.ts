@@ -23,8 +23,7 @@ export const getInput = (file: string) => {
 };
 
 export const moveHead = (instructions: Instruction[]) => {
-  let headMovement: { [key: string]: number }[] = [];
-
+  let headMovement: Instruction[] = [];
   let headPosition = { x: 0, y: 0 };
 
   instructions.forEach((instruction) => {
@@ -39,42 +38,34 @@ export const moveHead = (instructions: Instruction[]) => {
   return headMovement;
 };
 
+const increment = (head: number, tail: number) => (head - tail < 0 ? (tail -= 1) : (tail += 1));
+
 export const moveTail = (headMovement: Instruction[], tailLength: number): any => {
-  let coordinates: { [key: string]: number }[] = [];
+  let coordinates: Instruction[] = [];
   let tailPosition = { x: 0, y: 0 };
 
   headMovement.forEach((headPosition) => {
-    if (Math.abs(headPosition.x - tailPosition.x) > 1 && headPosition.y === tailPosition.y) {
-      headPosition.x - tailPosition.x < 0 ? (tailPosition.x -= 1) : (tailPosition.x += 1);
-    }
-
-    if (Math.abs(headPosition.y - tailPosition.y) > 1 && headPosition.x === tailPosition.x) {
-      headPosition.y - tailPosition.y < 0 ? (tailPosition.y -= 1) : (tailPosition.y += 1);
-    }
-
     if (
       Math.abs(headPosition.x - tailPosition.x) > 1 ||
       Math.abs(headPosition.y - tailPosition.y) > 1
     ) {
-      headPosition.x - tailPosition.x < 0 ? (tailPosition.x -= 1) : (tailPosition.x += 1);
-      headPosition.y - tailPosition.y < 0 ? (tailPosition.y -= 1) : (tailPosition.y += 1);
+      headPosition.x === tailPosition.x &&
+        (tailPosition.x = increment(headPosition.x, tailPosition.x));
+      headPosition.y !== tailPosition.y &&
+        (tailPosition.y = increment(headPosition.y, tailPosition.y));
     }
 
     coordinates.push({ ...tailPosition });
   });
 
-  if (tailLength > 1) {
-    return moveTail(coordinates, tailLength - 1);
-  }
-
-  if (tailLength === 1) {
-    const values = coordinates.map((co) => `${co.x},${co.y}`);
-    return new Set(values).size;
-  }
+  return tailLength > 1
+    ? moveTail(coordinates, tailLength - 1)
+    : new Set(coordinates.map((co) => `${co.x},${co.y}`)).size;
 };
 
 export const part01 = (file: string) => {
   const input = getInput(file);
   const headMovement = moveHead(input);
+
   return moveTail(headMovement, 1);
 };
