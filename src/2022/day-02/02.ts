@@ -1,8 +1,4 @@
-import { getInput } from "./01";
-
-interface Score {
-  [key: string]: number;
-}
+import { getInput, Score } from "./01";
 
 interface BaseScore {
   [key: string]: Score;
@@ -47,7 +43,5 @@ export const getScore = (input: string[][]) => {
 
 export const part02 = (file: string) => {
   const input = getInput(file);
-  const totalScore = getScore(input);
-
-  return totalScore;
+  return getScore(input);
 };

@@ -1,18 +1,26 @@
 import { readFileSync } from "fs";
 
-const baseScore: { [key: string]: number } = {
+export interface Score {
+  [key: string]: number;
+}
+
+interface Outcome {
+  [key: string]: string;
+}
+
+const baseScore: Score = {
   X: 1,
   Y: 2,
   Z: 3,
 };
 
-const draw: { [key: string]: string } = {
+const draw: Outcome = {
   A: "X",
   B: "Y",
   C: "Z",
 };
 
-const win: { [key: string]: string } = {
+const win: Outcome = {
   A: "Y",
   B: "Z",
   C: "X",
@@ -39,7 +47,5 @@ export const getScore = (input: string[][]) => {
 
 export const part01 = (file: string) => {
   const input = getInput(file);
-  const totalScore = getScore(input);
-
-  return totalScore;
+  return getScore(input);
 };
