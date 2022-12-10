@@ -49,7 +49,7 @@ export const moveTail = (headMovement: Instruction[], tailLength: number): any =
       Math.abs(headPosition.x - tailPosition.x) > 1 ||
       Math.abs(headPosition.y - tailPosition.y) > 1
     ) {
-      headPosition.x === tailPosition.x &&
+      headPosition.x !== tailPosition.x &&
         (tailPosition.x = increment(headPosition.x, tailPosition.x));
       headPosition.y !== tailPosition.y &&
         (tailPosition.y = increment(headPosition.y, tailPosition.y));
