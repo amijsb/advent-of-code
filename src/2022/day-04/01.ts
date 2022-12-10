@@ -6,9 +6,7 @@ export const getInput = (file: string) => {
 
   return lines.map((line) => {
     const split: string[] = line.split(",");
-    const firstRange = split[0].split("-").map(Number);
-    const secondRange = split[1].split("-").map(Number);
-    return [firstRange, secondRange];
+    return [split[0].split("-").map(Number), split[1].split("-").map(Number)];
   });
 };
 
@@ -16,9 +14,11 @@ export const getCompleteOverlap = (input: number[][][]) => {
   let count = 0;
 
   input.forEach((line) => {
-    if (line[0][0] >= line[1][0] && line[0][1] <= line[1][1]) return count++;
-    if (line[1][0] >= line[0][0] && line[1][1] <= line[0][1]) return count++;
-    return;
+    if (
+      (line[0][0] >= line[1][0] && line[0][1] <= line[1][1]) ||
+      (line[1][0] >= line[0][0] && line[1][1] <= line[0][1])
+    )
+      count++;
   });
 
   return count;
@@ -26,6 +26,5 @@ export const getCompleteOverlap = (input: number[][][]) => {
 
 export const part01 = (file: string) => {
   const input = getInput(file);
-  const completeOverlap = getCompleteOverlap(input);
-  return completeOverlap;
+  return getCompleteOverlap(input);
 };
