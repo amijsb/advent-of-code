@@ -40,7 +40,7 @@ export const moveHead = (instructions: Instruction[]) => {
 
 const updateTail = (head: number, tail: number) => (head - tail < 0 ? (tail -= 1) : (tail += 1));
 
-export const moveTail = (headMovement: Instruction[], tailLength: number): any => {
+export const moveTail = (headMovement: Instruction[], tailLength: number): number => {
   let coordinates: Instruction[] = [];
   let tailPosition = { x: 0, y: 0 };
 
