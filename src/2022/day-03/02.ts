@@ -1,6 +1,6 @@
-import { getInput, getValues } from "./01";
+import { getInput, getPriorities } from "./01";
 
-export const getGroups = (input: string[]) => {
+const getGroups = (input: string[]) => {
   const chunk = 3;
 
   const groups = input.reduce((resultArray: any[], item: string, index: number): string[][] => {
@@ -14,12 +14,14 @@ export const getGroups = (input: string[]) => {
   return groups;
 };
 
-export const getOverlap = (groups: string[][]) => {
-  const overlap = groups.map((group) => {
+const getOverlap = (groups: string[][]) => {
+  let overlap: string[] = [];
+
+  groups.forEach((group) => {
     const arrays = group.map((line) => line.split(""));
-    const overlap = arrays.reduce((a, b) => a.filter((c) => b.includes(c)));
-    const individualValues = new Set(overlap.flat()).values().next();
-    return individualValues.value;
+    const intersection = arrays.reduce((a, b) => a.filter((c) => b.includes(c)));
+
+    overlap.push(...new Set(intersection));
   });
 
   return overlap;
@@ -30,7 +32,7 @@ export const part02 = (file: string) => {
   const groups = getGroups(input);
 
   const overlap = getOverlap(groups);
-  const values = getValues(overlap);
+  const priorities = getPriorities(overlap);
 
-  return values.reduce((a, b) => a + b);
+  return priorities.reduce((a, b) => a + b);
 };

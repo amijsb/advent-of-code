@@ -12,17 +12,18 @@ export const getParts = (input: string[]) => {
   return [part1, part2];
 };
 
-export const getOverlap = (parts: string[][][]) => {
+const getOverlap = (parts: string[][][]) => {
   let overlap: string[] = [];
+
   parts[0].forEach((_, i) => {
-    const el = parts[0][i].filter((element) => parts[1][i].includes(element));
-    const individualValues = new Set(el).values().next();
-    overlap.push(individualValues.value);
+    const intersection = parts[0][i].filter((element) => parts[1][i].includes(element));
+    overlap.push(...new Set(intersection));
   });
+
   return overlap;
 };
 
-export const getValues = (overlap: string[]) =>
+export const getPriorities = (overlap: string[]) =>
   overlap.map((letter) => {
     const value = letter.charCodeAt(0);
     return value <= 90 ? value - 38 : value - 96;
@@ -33,7 +34,7 @@ export const part01 = (file: string) => {
   const parts = getParts(input);
 
   const overlap = getOverlap(parts);
-  const values = getValues(overlap);
+  const priorities = getPriorities(overlap);
 
-  return values.reduce((a, b) => a + b);
+  return priorities.reduce((a, b) => a + b);
 };
