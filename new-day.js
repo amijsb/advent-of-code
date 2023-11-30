@@ -1,6 +1,11 @@
 const fs = require("fs");
 const path = require("path");
 
+if (process.argv.length !== 4) {
+  console.error("Wrong input format! Try this: npm run new-day 2022 day-01");
+  return;
+}
+
 const arguments = process.argv.slice(2);
 
 const year = arguments[0];
