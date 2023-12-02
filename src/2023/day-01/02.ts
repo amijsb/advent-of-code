@@ -9,7 +9,7 @@ const parseInput = (input: string[]) =>
     const indices = [...firstIndices, ...lastIndices.filter((i) => !firstIndices.includes(i))];
     const filteredIndices = indices.sort((a, b) => a - b).filter((num) => num !== -1);
 
-    const substrings = filteredIndices.map((vroem) => line.slice(vroem));
+    const substrings = filteredIndices.map((i) => line.slice(i));
 
     return substrings.map(
       (string) =>
@@ -22,7 +22,7 @@ const parseInput = (input: string[]) =>
 const getCalibrationValues = (parsedInput: string[][]) =>
   parsedInput.map((input) => {
     const numericals = input.map((string) => {
-      const nums = numbers.find((number) => string === number.spelledOut)?.numerical;
+      const nums = numbers.find(({ spelledOut }) => string === spelledOut)?.numerical;
       return nums === undefined ? string : nums;
     });
 

@@ -7,7 +7,7 @@ export const getInput = (file: string) => {
 
 const getCalibrationValues = (input: string[]): number[] =>
   input.map((string) => {
-    const nums: string[] | null = string.match(/(\d)/g);
+    const nums = string.match(/(\d)/g);
 
     return nums ? Number(nums[0] + nums[nums.length - 1]) : 0;
   });
