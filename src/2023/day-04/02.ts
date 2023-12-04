@@ -4,10 +4,10 @@ const calculateCopies = (matches: number[][]) => {
   const copies = Array(matches.length).fill(1);
 
   matches.forEach((match, matchIndex) => {
-    const mulitplier = copies[matchIndex];
+    const existingCopies = copies[matchIndex];
 
     match.forEach((_, i) => {
-      copies[matchIndex + i + 1] += mulitplier;
+      copies[matchIndex + i + 1] += existingCopies;
     });
   });
 
