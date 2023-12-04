@@ -11,6 +11,10 @@ const arguments = process.argv.slice(2);
 const year = arguments[0];
 const day = arguments[1];
 
+const app = fs
+  .readFileSync(path.join(__dirname, `templates/app.ts`), "utf-8")
+  .replaceAll("%%DAY%%", day)
+  .replaceAll("%%YEAR%%", year);
 const part01 = fs.readFileSync(path.join(__dirname, `templates/01.ts`), "utf-8");
 const part02 = fs.readFileSync(path.join(__dirname, `templates/02.ts`), "utf-8");
 
@@ -57,6 +61,12 @@ const createNewDay = (year, day) => {
         return console.error(err);
       }
     });
+  });
+
+  fs.writeFile(path.join(__dirname, `src/app.ts`), app, (err) => {
+    if (err) {
+      return console.error(err);
+    }
   });
 
   console.log(`Created ${year}/${day} for you!`);
