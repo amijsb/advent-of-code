@@ -14,6 +14,11 @@ export const getInput = (file: string) => {
   return { seeds, maps };
 };
 
+export const updateNumber = (number: number, source: number, destination: number) =>
+  source > destination
+    ? (number -= Math.abs(source - destination))
+    : (number += Math.abs(source - destination));
+
 const getLocationNumbers = (seeds: number[], maps: number[][][]) =>
   seeds.map((seed) => {
     let currentNumber = seed;
@@ -27,11 +32,8 @@ const getLocationNumbers = (seeds: number[], maps: number[][][]) =>
       if (dedicatedLine) {
         const [destination, source, range] = dedicatedLine;
 
-        if (currentNumber >= source && currentNumber <= source + range - 1) {
-          source > destination
-            ? (currentNumber -= Math.abs(source - destination))
-            : (currentNumber += Math.abs(source - destination));
-        }
+        if (currentNumber >= source && currentNumber <= source + range - 1)
+          currentNumber = updateNumber(currentNumber, source, destination);
       }
     });
 

@@ -1,4 +1,4 @@
-import { getInput } from "./01";
+import { getInput, updateNumber } from "./01";
 
 const getSeedsRanges = (seeds: number[]) =>
   seeds.reduce((acc: number[][], current: number, index: number) => {
@@ -14,11 +14,6 @@ const hasOverlap = (start: number, end: number, source: number, sourceEnd: numbe
   if (start >= source && start <= sourceEnd && end > sourceEnd) return true;
   return false;
 };
-
-const updateNumber = (number: number, source: number, destination: number) =>
-  source > destination
-    ? (number -= Math.abs(source - destination))
-    : (number += Math.abs(source - destination));
 
 const testRange = (range: number[], line: number[], retest: number[][], moveOn: number[][]) => {
   const [start, end] = range;
@@ -59,34 +54,22 @@ const getLocationNumbers = (seedRanges: number[][], maps: number[][][]) => {
     ranges.forEach((range) => {
       const [start, end] = range;
 
-      const matchingLine = map.find((line) => {
-        const [_, source, range] = line;
+      const matchingLine = map.find((line) =>
+        hasOverlap(start, end, line[1], line[1] + line[2] - 1),
+      );
 
-        return hasOverlap(start, end, source, source + range - 1);
-      });
-
-      if (matchingLine) {
-        testRange(range, matchingLine, retest, moveOn);
-      } else {
-        moveOn.push([start, end]);
-      }
+      matchingLine ? testRange(range, matchingLine, retest, moveOn) : moveOn.push([start, end]);
     });
 
     if (retest.length > 0) {
       retest.forEach((range) => {
         const [start, end] = range;
 
-        const matchingLine = map.find((line) => {
-          const [_, source, range] = line;
+        const matchingLine = map.find((line) =>
+          hasOverlap(start, end, line[1], line[1] + line[2] - 1),
+        );
 
-          return hasOverlap(start, end, source, source + range - 1);
-        });
-
-        if (matchingLine) {
-          testRange(range, matchingLine, retest, moveOn);
-        } else {
-          moveOn.push([start, end]);
-        }
+        matchingLine ? testRange(range, matchingLine, retest, moveOn) : moveOn.push([start, end]);
       });
     }
 
@@ -100,6 +83,6 @@ export const part02 = (file: string) => {
   const { seeds, maps } = getInput(file);
   const seedsRanges = getSeedsRanges(seeds);
 
-  const tests = getLocationNumbers(seedsRanges, maps);
-  return Math.min(...tests.flat(3));
+  const locationNumbers = getLocationNumbers(seedsRanges, maps).flat();
+  return Math.min(...locationNumbers);
 };
