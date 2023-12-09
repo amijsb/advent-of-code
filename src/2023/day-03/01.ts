@@ -50,7 +50,6 @@ export const part01 = (file: string) => {
   const input = getInput(file);
   const numbers = getNumbers(input);
   const symbols = getSymbols(input);
-
   const parts = getParts(numbers, symbols);
 
   return parts.map((part) => part.numbers).reduce((a, b) => a + b, 0);

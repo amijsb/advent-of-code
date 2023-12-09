@@ -7,8 +7,7 @@ const getGears = (numbers: Number[], symbols: Symbol[]) => {
     symbols.forEach((symbol) => {
       if (
         number.range.some((num) => symbol.range.includes(num)) &&
-        Math.abs(number.line - symbol.line) <= 1 &&
-        symbol.symbol === "*"
+        Math.abs(number.line - symbol.line) <= 1
       ) {
         const key = `${symbol.line}${symbol.index}`;
         gears[key] = gears[key] || [];
