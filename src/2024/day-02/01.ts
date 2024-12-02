@@ -7,35 +7,24 @@ export const getInput = (file: string) => {
   return lines.map((line) => line.map(Number));
 };
 
-export const checkSafety = (
-  report: number[],
-  direction = "",
-  difference = 0,
-  index = 0,
-  safe = true,
-): number => {
-  while (safe === true) {
-    if (index === 0) {
-      if (report[index] < report[index + 1]) direction = "ascending";
-      if (report[index] > report[index + 1]) direction = "descending";
+export const checkSafety = (report: number[], direction = "", difference = 0, safe = true) =>
+  report.reduce((acc, level, index) => {
+    if (safe === false) return 0;
 
-      index++;
-      continue;
+    if (index === 1) {
+      if (level < acc) direction = "descending";
+      if (level > acc) direction = "ascending";
     }
 
-    if (direction === "ascending") difference = report[index] - report[index - 1];
-    if (direction === "descending") difference = report[index - 1] - report[index];
+    if (direction === "ascending") difference = level - acc;
+    if (direction === "descending") difference = acc - level;
 
     if (difference < 1 || difference > 3) {
       safe = false;
-      break;
-    } else if (index === report.length - 1) break;
-
-    index++;
-  }
-
-  return safe ? 1 : 0;
-};
+      return 0;
+    } else if (index === report.length - 1) return 1;
+    else return (acc = level);
+  });
 
 export const part01 = (file: string) => {
   const reports = getInput(file);
