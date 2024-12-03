@@ -2,21 +2,15 @@ import { getInput, multiply, parseInstruction } from "./01";
 
 const regex = /(mul\(\d{1,3},\d{1,3}\))|(don't\(\))|(do\(\))/g;
 
-const checkInput = (input: string[], bla: number = 0) =>
+const checkInput = (input: string[], removeIndex: number = 0) =>
   input.reduce((acc: string[], curr, index) => {
-    if (curr === "don't()") {
-      bla = index;
-      return acc;
-    }
-
+    if (curr === "don't()") removeIndex = index;
     if (curr === "do()") {
-      bla = 0;
+      removeIndex = 0;
       return acc;
     }
 
-    if (bla !== 0) return acc;
-
-    acc = [...acc, curr];
+    if (removeIndex === 0) acc = [...acc, curr];
     return acc;
   }, []);
 

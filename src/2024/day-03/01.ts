@@ -11,7 +11,7 @@ export const getInput = (file: string, regex: RegExp): string[] => {
 
 export const multiply = (input: string[][]) =>
   input.map((instruction) => {
-    const [a, b] = instruction?.map(Number);
+    const [a, b] = instruction.map(Number);
     return a * b;
   });
 
