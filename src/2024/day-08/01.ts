@@ -1,4 +1,5 @@
 import { readFileSync } from "fs";
+import { outOfBounds } from "../../../helpers/out-of-bounds";
 
 interface Anntennae {
   [key: string]: {
@@ -25,9 +26,6 @@ export const findAntennae = (frequencies: string[], map: string[][]) =>
 
     return { ...acc, [frequency]: coordinates };
   }, {});
-
-const outOfBounds = (x: number, y: number, maxX: number, maxY: number) =>
-  x < 0 || y < 0 || x > maxX || y > maxY;
 
 export const getAntinodes = (antennae: Anntennae, map: string[][], harmonics = false) => {
   for (const frequency in antennae) {
