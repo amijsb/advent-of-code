@@ -38,6 +38,11 @@ export const getAntinodes = (antennae: Anntennae, map: string[][], harmonics = f
         const x = acc.x - co.x;
         const y = acc.y - co.y;
 
+        const accOOB = (x: number, y: number) =>
+          outOfBounds(acc.x + x, acc.y + y, map[0].length - 1, map.length - 1);
+        const coOOB = (x: number, y: number) =>
+          outOfBounds(co.x - x, co.y - y, map[0].length - 1, map.length - 1);
+
         if (harmonics) {
           map[acc.y][acc.x] = "#";
           map[co.y][co.x] = "#";
@@ -48,26 +53,17 @@ export const getAntinodes = (antennae: Anntennae, map: string[][], harmonics = f
             const newX = x * multiplier;
             const newY = y * multiplier;
 
-            if (
-              outOfBounds(acc.x + newX, acc.y + newY, map[0].length - 1, map.length - 1) &&
-              outOfBounds(co.x - newX, co.y - newY, map[0].length - 1, map.length - 1)
-            )
-              break;
+            if (accOOB(newX, newY) && coOOB(newX, newY)) break;
 
-            if (!outOfBounds(acc.x + newX, acc.y + newY, map[0].length - 1, map.length - 1))
-              map[acc.y + newY][acc.x + newX] = "#";
-
-            if (!outOfBounds(co.x - newX, co.y - newY, map[0].length - 1, map.length - 1))
-              map[co.y - newY][co.x - newX] = "#";
+            if (!accOOB(newX, newY)) map[acc.y + newY][acc.x + newX] = "#";
+            if (!coOOB(newX, newY)) map[co.y - newY][co.x - newX] = "#";
 
             multiplier++;
           }
         }
 
-        if (!outOfBounds(acc.x + x, acc.y + y, map[0].length - 1, map.length - 1))
-          map[acc.y + y][acc.x + x] = "#";
-        if (!outOfBounds(co.x - x, co.y - y, map[0].length - 1, map.length - 1))
-          map[co.y - y][co.x - x] = "#";
+        if (!accOOB(x, y)) map[acc.y + y][acc.x + x] = "#";
+        if (!coOOB(x, y)) map[co.y - y][co.x - x] = "#";
       });
 
       return (acc = curr);
