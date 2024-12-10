@@ -1,7 +1,7 @@
-import { part01 } from "./2024/day-06/01";
-import { part02 } from "./2024/day-06/02";
+import { part01 } from "./2024/day-05/01";
+import { part02 } from "./2024/day-05/02";
 
-const day = "day-06";
+const day = "day-05";
 const year = "2024";
 
 const input = `./input/${year}/${day}/input.txt`;
