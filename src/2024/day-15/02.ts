@@ -1,4 +1,3 @@
-import { rowsToColumns } from "../../../helpers/rows-to-columns";
 import { Direction, findBoxes, findStartingPosition, getInput, lookAhead, Map, move } from "./01";
 
 const robot = "@";
