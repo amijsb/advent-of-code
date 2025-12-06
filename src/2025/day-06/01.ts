@@ -31,12 +31,13 @@ const parseProblems = (problems: string[]) => {
   const parsedProblems: string[][] = [];
 
   divisions.reduce((acc, arr, index) => {
-    let bla = [];
+    let problem = [];
 
-    if (index === divisions.length - 1) bla = problems.map((problem) => problem.slice(arr).trim());
-    else bla = problems.map((problem) => problem.slice(acc, arr).trim());
+    if (index === divisions.length - 1)
+      problem = problems.map((problem) => problem.slice(arr).trim());
+    else problem = problems.map((problem) => problem.slice(acc, arr).trim());
 
-    parsedProblems.push(bla);
+    parsedProblems.push(problem);
 
     return (acc = arr);
   });

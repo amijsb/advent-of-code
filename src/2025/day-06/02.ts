@@ -1,4 +1,4 @@
-import { rowsToColumns } from "../../../helpers/rows-to-columns";
+import { rowsToColumns } from "@/helpers/rows-to-columns";
 import { getDivisions, getInput, solveAssignment } from "./01";
 
 const parseProblems = (problems: string[]) => {
@@ -9,17 +9,19 @@ const parseProblems = (problems: string[]) => {
   const parsedProblems: string[][] = [];
 
   divisions.reduce((acc, arr, index) => {
-    let bla = [];
+    let problem = [];
 
-    if (index === divisions.length - 1) bla = problems.map((problem) => problem.slice(arr));
-    else bla = problems.map((problem) => problem.slice(acc, arr));
+    if (index === divisions.length - 1) problem = problems.map((problem) => problem.slice(arr));
+    else problem = problems.map((problem) => problem.slice(acc, arr));
 
-    const bloem = bla.map((line) => line.split(""));
+    const splits = problem.map((line) => line.split(""));
+    const operator = problem[operatorIndex].trim();
 
-    const operator = bla[operatorIndex].trim();
+    const parsed = rowsToColumns(splits).map((split) =>
+      split.slice(0, operatorIndex).join("").trim(),
+    );
 
-    const vloer = rowsToColumns(bloem).map((bla) => bla.slice(0, operatorIndex).join("").trim());
-    parsedProblems.push([...vloer, operator].filter((value) => !!value));
+    parsedProblems.push([...parsed, operator].filter((value) => !!value));
 
     return (acc = arr);
   });
